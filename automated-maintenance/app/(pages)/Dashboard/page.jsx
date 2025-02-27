@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import AdminPage from "@/components/AdminPage";
+import TechnicianPage from "@/components/TechnicianPage";
 
-const page = () => {
+const Dashboard = () => {
   return (
-    dashborad
-  )
-}
+    <div>
+      {/* <AdminPage /> */}
+      <TechnicianPage />
+    </div>
+  );
+};
 
-export default page
+export default Dashboard;
