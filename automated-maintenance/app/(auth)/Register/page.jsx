@@ -68,7 +68,7 @@ export default function SignUp() {
           <p className="mt-2 text-sm text-gray-600">Automated Maintenance System</p>
         </div>
         
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -181,7 +181,7 @@ export default function SignUp() {
           
           <div className="text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <a href="/Login" className="font-medium text-indigo-600 hover:text-indigo-500">
               Sign in
             </a>
           </div>

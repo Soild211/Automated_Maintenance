@@ -22,8 +22,8 @@ const TechnicianIssueCard = ({
     <div
       className={`rounded-md text-gray-900 p-4 shadow-lg w-full mx-auto ${
         status === "Pending"
-          ? "border-4 border-yellow-500"
-          : "border-4 border-green-500"
+          ? "border-4 border-red-500"
+          : status === "Completed" ? "border-4 border-blue-500" : "border-4 border-green-500"
       }`}
     >
       <div
@@ -35,7 +35,9 @@ const TechnicianIssueCard = ({
         <p className="text-lg">Device Type: {deviceType}</p>
         <p
           className={`text-lg font-semibold ${
-            status === "Pending" ? "text-yellow-600" : "text-green-600"
+            status === "Pending"
+          ? " text-red-500"
+          : status === "Completed" ? " text-blue-500" : " text-green-500"
           }`}
         >
           Status: {status}

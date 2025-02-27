@@ -9,7 +9,7 @@ const Issues = [
     deviceId: "123",
     labNo: "1",
     deviceType: "Computer",
-    status: "Pending",
+    status: "Resolved",
     date: "12/12/2021",
     facultyName: "John Doe",
     facultyLabIncharge: "Jane Doe",
