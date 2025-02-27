@@ -34,7 +34,7 @@ export const POST = async (req) =>{
             password : hashPassword,
             role
         });
-        if(!createUser){
+        if(!createUser){    
             return res.json({
                 status:false,
                 msg:"Error creating new user please try again."
