@@ -1,12 +1,15 @@
 import React from "react";
-import AdminPage from "@/components/AdminPage";
-import TechnicianPage from "@/components/TechnicianPage";
+import AdminPage from "@/components/pages/AdminPage";
+import TechnicianPage from "@/components/pages/TechnicianPage";
+import FacultyPage from "@/components/pages/FacultyPage";
 
 const Dashboard = () => {
   return (
     <div>
       {/* <AdminPage /> */}
-      <TechnicianPage />
+      {/* <TechnicianPage /> */}
+      <FacultyPage />
+      THis is my noob comment!!!!
     </div>
   );
 };
