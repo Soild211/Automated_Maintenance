@@ -34,12 +34,13 @@ export const POST = async (req) =>{
             password : hashPassword,
             role
         });
-        if(!createUser){
+        if(!createUser){    
             return res.json({
                 status:false,
                 msg:"Error creating new user please try again."
             })
         }   
+        // console.log("user saved in db", createUser);
         const findId= await User.findOne({prn});
         const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(findId._id);
         const sendUser = { 
