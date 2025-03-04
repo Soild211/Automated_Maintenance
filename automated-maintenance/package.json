@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.6.0",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.476.0",
@@ -16,6 +17,7 @@
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0"
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {

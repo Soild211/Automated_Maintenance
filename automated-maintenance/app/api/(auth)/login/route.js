@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import {generateAccessAndRefreshTokens} from "@/lib/token.js";
 
 //api/login
-export async function POST (req ,    res) {
+export async function POST (req ,res) {
     try {
         await dbConnect();
         const data = await req.json(); 
