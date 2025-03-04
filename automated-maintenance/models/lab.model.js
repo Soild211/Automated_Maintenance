@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose';
+import mongoose, {Schema, models} from 'mongoose';
 import { Device } from './device.model.js';
 
 const labSchema=new Schema({
@@ -8,13 +8,8 @@ const labSchema=new Schema({
         unique:true,
     },
     incharge:{
-        type:String,
-    },
-    column:{    
-        type:Number
-    },
-    row:{
-        type:Number
+        type:Schema.Types.ObjectId,
+        ref:'User',
     },
     devices:{
         type:[
