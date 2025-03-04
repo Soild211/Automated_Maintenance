@@ -23,7 +23,12 @@ const userSchema = new Schema({
     },
     role:{
         type:String,
-        required:true
+        enum:["HOD","Faculty", "Technician"],
+        required:true,
+    },
+    isApproved: {
+        type: Boolean,
+        default: false,
     },
     refreshToken:{
         type:String,
