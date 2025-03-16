@@ -35,7 +35,7 @@ export async function POST (req ,res) {
         const response = NextResponse.json({
             status: true,
             msg: "User Logged in  successfully",
-            user: {  prn  },
+            user:  {prn,role}  ,
         });
 
         response.headers.set("Set-Cookie", [

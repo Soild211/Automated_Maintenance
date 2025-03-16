@@ -4,11 +4,15 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { loginSuccess } from '@/lib/slices/authSlice';
 
 export default function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     prn: '',
@@ -43,6 +47,7 @@ export default function Login() {
         toast.success(data.msg || 'Login successful!');
         // Redirect to login or dashboard after successful registration
         
+          dispatch(loginSuccess(data.user)); 
           router.push('/dashboard');
         
       } else {
