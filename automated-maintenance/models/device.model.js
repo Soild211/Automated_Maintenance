@@ -10,16 +10,16 @@ const deviceSchema=new Schema({
     },
     labNo:{
         type:Number,
+        required:true,
 
     },
     deviceType:{
         type:String,
+        enum:["PC","Printer","Projector"],
+        required:true,
     },
     status:{
         type:Boolean,
-    },
-    position:{
-        type:Number,
     },
     issues:{
         type:[

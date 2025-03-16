@@ -32,7 +32,8 @@ const issueSchema = new Schema(
       required: true,
     },
     facultyLabIncharge: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref:'User',  
       required: true,
     },
     details: {

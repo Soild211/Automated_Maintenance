@@ -1,16 +1,17 @@
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db.js";
-import { Device } from "@/models/device.model";
+import { Lab } from "@/models/lab.model";
 
 
-//get all the devices
+//get all the labs
 export async function GET(req) {
     try {
 
         await dbConnect();
-        const devices = await Device.find();
+        const labs = await Lab.find();
 
-        return NextResponse.json({ success: true, devices }, { status: 200 });
+        return NextResponse.json({ success: true, labs }, { status: 200 });
     } catch (error) {
         return NextResponse.json(
             { success: false, message: "Server error", error: error.message },
@@ -19,17 +20,18 @@ export async function GET(req) {
     }
 }
 
-//get a single device
+//get a single lab
 export const POST = async (req) => {
     try {
         const data = await req.json();
-        const { deviceId } = data;
-        if(!deviceId) return NextResponse.json({success:false, message:"Provide a device ID"},{status:400});
+        const { labNo } = data;
+        if (!labNo) return NextResponse.json({ success: false, message: "Provide a Lab Number" }, { status: 400 });
 
         await dbConnect();
-        const device = await Device.findOne({ id:deviceId }).populate("issues");
-        if (!device) return NextResponse.json({ success: false, message: "Invalid Device ID" }, { stauts: 400 });
-        return NextResponse.json({ success: true, device }, { status: 200 });
+        const lab = await Lab.findOne({ labNo }).populate("devices");
+        if (!lab) return NextResponse.json({ success: false, message: "Invalid Lab Number" }, { stauts: 400 });
+
+        return NextResponse.json({ success: true, lab }, { status: 200 });
     }
     catch (error) {
         return NextResponse.json(
