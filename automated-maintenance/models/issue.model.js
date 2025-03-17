@@ -29,12 +29,12 @@ const issueSchema = new Schema(
     facultyId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      // required: true,
     },
     facultyLabIncharge: {
       type: Schema.Types.ObjectId,
       ref:'User',  
-      required: true,
+      // required: true,
     },
     details: {
       type: String,

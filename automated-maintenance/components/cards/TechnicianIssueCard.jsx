@@ -23,7 +23,9 @@ const TechnicianIssueCard = ({
       className={`rounded-md text-gray-900 p-4 shadow-lg w-full mx-auto ${
         status === "Pending"
           ? "border-4 border-red-500"
-          : status === "Completed" ? "border-4 border-blue-500" : "border-4 border-green-500"
+          : status === "Completed"
+          ? "border-4 border-blue-500"
+          : "border-4 border-green-500"
       }`}
     >
       <div
@@ -36,13 +38,15 @@ const TechnicianIssueCard = ({
         <p
           className={`text-lg font-semibold ${
             status === "Pending"
-          ? " text-red-500"
-          : status === "Completed" ? " text-blue-500" : " text-green-500"
+              ? "text-red-500"
+              : status === "Completed"
+              ? "text-blue-500"
+              : "text-green-500"
           }`}
         >
           Status: {status}
         </p>
-        <p className="text-sm text-gray-700">Reported: {date}</p>
+        <p className="text-sm text-gray-700">Reported: {new Date(date).toLocaleDateString()}</p>
       </div>
 
       {isOpen && (

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
-const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
+const FacultyIssueForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     labNo: "",
     deviceId: "",
@@ -11,9 +11,21 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
     recurring: false,
     facultyLabIncharge: "",
   });
-  useEffect(()=>{
-    
-  },[])
+
+  const [availableDevices, setAvailableDevices] = useState([]);
+
+  useEffect(() => {
+    console.log("Lab Number changed:", formData.labNo); // Debugging
+    if (formData.labNo) {
+      fetch(`/api/devices?labNo=${formData.labNo}`)
+        .then((response) => response.json())
+        .then((data) => setAvailableDevices(data.devices))
+        .catch((error) => console.error("Error fetching devices:", error));
+    } else {
+      setAvailableDevices([]); // Clear devices if no lab is selected
+    }
+  }, [formData.labNo]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -26,22 +38,36 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
     setFormData({ ...formData, deviceId });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    try {
+      const response = await fetch("/api/issues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Issue submitted successfully!");
+        // onSubmit(formData); // Call the onSubmit prop if needed
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting issue:", error);
+      alert("An error occurred while submitting the issue.");
+    }
   };
 
   const labs = [
-    { labNo: 1 },
-    { labNo: 2 },
-    { labNo: 3 },
-    { labNo: 4 },
-    { labNo: 5 },
-    { labNo: 6 },
-    { labNo: 7 },
-    { labNo: 8 },
-    { labNo: 9 },
-    { labNo: 10 },
+    { labNo: 514 },
+    { labNo: 527 },
+    // Add more labs as needed
   ];
 
   return (
@@ -50,7 +76,14 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block font-medium">Lab Number</label>
-          <select name="labno" id="labno" className="w-full p-2 border rounded">
+          <select
+            name="labNo"
+            id="labNo"
+            value={formData.labNo}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          >
+            <option value="">Select Lab</option>
             {labs.map((lab) => (
               <option value={lab.labNo} key={lab.labNo}>
                 {lab.labNo}
@@ -62,30 +95,33 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
         <div className="mb-4">
           <label className="block font-medium">Select Device ID</label>
           <div className="grid grid-cols-3 gap-2">
-            {/* {availableDevices.map((device) => (
+            {availableDevices?.map((device) => (
               <button
-                key={device}
+                key={device.id}
                 type="button"
-                onClick={() => handleDeviceSelect(device)}
+                onClick={() => handleDeviceSelect(device.id)}
                 className={`p-2 border rounded text-center transition-all ${
-                  formData.deviceId === device
+                  formData.deviceId === device.id
                     ? "bg-blue-500 text-white"
                     : "bg-gray-100"
                 }`}
               >
-                {device}
+                {device.id}
               </button>
-            ))} */}
+            ))}
           </div>
         </div>
 
         <div className="mb-4">
           <label className="block font-medium">Device Type</label>
           <select
-            name="devicetype"
-            id="devicetype"
+            name="deviceType"
+            id="deviceType"
+            value={formData.deviceType}
+            onChange={handleChange}
             className="w-full p-2 border rounded"
           >
+            <option value="">Select Device Type</option>
             <option value="cpu">CPU</option>
             <option value="monitor">Monitor</option>
             <option value="keyboard">Keyboard</option>
@@ -120,10 +156,13 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
         <div className="mb-4">
           <label className="block font-medium">Faculty Lab Incharge</label>
           <select
-            name="labincharge"
-            id="labincharge"
+            name="facultyLabIncharge"
+            id="facultyLabIncharge"
+            value={formData.facultyLabIncharge}
+            onChange={handleChange}
             className="w-full p-2 border rounded"
           >
+            <option value="">Select Faculty</option>
             <option value="faculty1">Faculty 1</option>
             <option value="faculty2">Faculty 2</option>
             <option value="faculty3">Faculty 3</option>

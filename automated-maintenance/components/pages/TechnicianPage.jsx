@@ -1,89 +1,79 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TechnicianIssueCard from "@/components/cards/TechnicianIssueCard";
 import Link from "next/link";
 
-const Issues = [
-  {
-    deviceId: "123",
-    labNo: "1",
-    deviceType: "Computer",
-    status: "Resolved",
-    date: "12/12/2021",
-    facultyName: "John Doe",
-    facultyLabIncharge: "Jane Doe",
-    details: "Broken Screen",
-    recurring: "No",
-    count: 1,
-  },
-  {
-    deviceId: "123",
-    labNo: "1",
-    deviceType: "Computer",
-    status: "Pending",
-    date: "12/12/2021",
-    facultyName: "John Doe",
-    facultyLabIncharge: "Jane Doe",
-    details: "Broken Screen",
-    recurring: "No",
-    count: 1,
-  },
-  {
-    deviceId: "123",
-    labNo: "1",
-    deviceType: "Computer",
-    status: "Pending",
-    date: "12/12/2021",
-    facultyName: "John Doe",
-    facultyLabIncharge: "Jane Doe",
-    details: "Broken Screen",
-    recurring: "No",
-    count: 1,
-  },
-  {
-    deviceId: "123",
-    labNo: "1",
-    deviceType: "Computer",
-    status: "Pending",
-    date: "12/12/2021",
-    facultyName: "John Doe",
-    facultyLabIncharge: "Jane Doe",
-    details:
-      "This is a list of all the long details needed for get a detailed view of the issue. This is a list of all the long details needed for get a detailed view of the issue. This is a list of all the long details needed for get a detailed view of the issue. This is a list of all the long details needed for get a detailed view of the issue.",
-    recurring: "No",
-    count: 1,
-  },
-  {
-    deviceId: "123",
-    labNo: "1",
-    deviceType: "Computer",
-    status: "Completed",
-    date: "12/12/2021",
-    facultyName: "John Doe",
-    facultyLabIncharge: "Jane Doe",
-    details: "Broken Screen",
-    recurring: "No",
-    count: 1,
-  },
-];
-
 const TechnicianDashboard = () => {
+  const [issues, setIssues] = useState([]); // State to store fetched issues
+  const [loading, setLoading] = useState(true); // State to handle loading
+  const [error, setError] = useState(null); // State to handle errors
   const [filterStatus, setFilterStatus] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredIssues = Issues.filter(
+  // Fetch issues from the backend
+  useEffect(() => {
+    const fetchIssues = async () => {
+      try {
+        const response = await fetch("/api/issues");
+        if (!response.ok) {
+          throw new Error("Failed to fetch issues");
+        }
+        const data = await response.json();
+        setIssues(data.issues); // Set the fetched issues
+      } catch (error) {
+        setError(error.message); // Set error message
+      } finally {
+        setLoading(false); // Set loading to false
+      }
+    };
+
+    fetchIssues();
+  }, []);
+
+  // Filter issues based on status and search query
+  const filteredIssues = issues.filter(
     (issue) =>
       (filterStatus === "All" || issue.status === filterStatus) &&
-      (issue.labNo.includes(searchQuery) ||
+      (issue.labNo.toString().includes(searchQuery) ||
         issue.deviceId.includes(searchQuery))
   );
 
-  const handleResolve = (deviceId, resolutionNotes) => {
-    console.log(
-      `Issue with Device ID: ${deviceId} resolved with notes: ${resolutionNotes}`
-    );
+  // Handle resolving an issue
+  const handleResolve = async (deviceId, resolutionNotes) => {
+    try {
+      const response = await fetch(`/api/issues`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ deviceId, resolutionNotes }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to resolve issue");
+      }
+
+      // Update the local state to reflect the resolved issue
+      setIssues((prevIssues) =>
+        prevIssues.map((issue) =>
+          issue.deviceId === deviceId
+            ? { ...issue, status: "Resolved" }
+            : issue
+        )
+      );
+    } catch (error) {
+      console.error("Error resolving issue:", error);
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading state
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display error message
+  }
 
   return (
     <>
@@ -121,7 +111,7 @@ const TechnicianDashboard = () => {
             >
               <option value="All">All Issues</option>
               <option value="Pending">Pending</option>
-              <option value="Resolved">Resolved</option>
+              <option value="Completed">Resolved</option>
             </select>
           </div>
 

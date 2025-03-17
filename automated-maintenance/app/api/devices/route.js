@@ -4,11 +4,37 @@ import { Device } from "@/models/device.model";
 
 
 //get all the devices
+// export async function GET(req) {
+//     try {
+
+//         await dbConnect();
+//         const devices = await Device.find();
+
+//         return NextResponse.json({ success: true, devices }, { status: 200 });
+//     } catch (error) {
+//         return NextResponse.json(
+//             { success: false, message: "Server error", error: error.message },
+//             { status: 500 }
+//         );
+//     }
+// }
 export async function GET(req) {
     try {
-
         await dbConnect();
-        const devices = await Device.find();
+
+        // Extract query parameters
+        const { searchParams } = new URL(req.url);
+        const labNo = searchParams.get("labNo");
+
+        if (!labNo) {
+            return NextResponse.json(
+                { success: false, message: "Lab number is required" },
+                { status: 400 }
+            );
+        }
+
+        // Fetch devices for the specified lab number
+        const devices = await Device.find({ labNo, deviceType: "Computer" }).populate("issues");
 
         return NextResponse.json({ success: true, devices }, { status: 200 });
     } catch (error) {
