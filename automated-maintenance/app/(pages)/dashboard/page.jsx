@@ -24,7 +24,7 @@ const Dashboard = () => {
       {user.role === "hod" && <AdminPage />}
       {user.role === "technician" && <TechnicianPage />}
       {user.role === "faculty" && <FacultyDashboard />}
-      {!role && <p>Loading...</p>} {/* Show loading message if role is not set */}
+      {!user.role && <p>Loading...</p>} {/* Show loading message if role is not set */}
     </div>
   );
 };

@@ -23,7 +23,7 @@ const userSchema = new Schema({
     },
     role:{
         type:String,
-        enum:["HOD","Faculty", "Technician"],
+        enum:["hod","faculty", "technician"],
         required:true,
     },
     isApproved: {

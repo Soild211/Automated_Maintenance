@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,9 @@ const FacultyIssueForm = ({ availableDevices, onSubmit }) => {
     recurring: false,
     facultyLabIncharge: "",
   });
-
+  useEffect(()=>{
+    
+  },[])
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
