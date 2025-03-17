@@ -1,8 +1,7 @@
 'use client';
 import { Geist, Geist_Mono } from "next/font/google";
-import { Provider } from 'react-redux';
-import { makeStore } from '@/lib/store';
 import "./globals.css";
+import StoreProvider from './StoreProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,16 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Create store instance
-const store = makeStore();
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Provider store={store}>
+        <StoreProvider>
           {children}
-        </Provider>
+        </StoreProvider>
       </body>
     </html>
   );
