@@ -1,8 +1,9 @@
 'use client';
 import { Geist, Geist_Mono } from "next/font/google";
 import { Provider } from 'react-redux';
-import { makeStore } from '@/lib/store';
+import { makeStore, persistor } from '@/lib/store';
 import "./globals.css";
+import { PersistGate } from "redux-persist/integration/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider store={store}>
-          {children}
+          <PersistGate loading={null} persistor={persistor}>
+            {children}
+          </PersistGate>
         </Provider>
       </body>
     </html>
