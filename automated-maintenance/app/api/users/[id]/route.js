@@ -31,7 +31,7 @@ export const PATCH = async (req, context) => {
         );
 
         if (!updatedUser) {
-            console.error("❌ User not found in DB");
+            console.error("❌ User not found in DB");``
             return NextResponse.json({ status: false, msg: "User not found" }, { status: 404 });
         }
 
